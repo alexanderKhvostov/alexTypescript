@@ -1,22 +1,26 @@
-import { put } from "redux-saga/effects";
+import * as Eff from "redux-saga/effects";
+
 import {
-  createTodoRequest,
   createTodoSuccess,
   createTodoFailure,
-  deleteTodoRequest,
   deleteTodoSuccess,
   deleteTodoFailure,
-  setTodosRequest,
   setTodosSuccess,
 } from "./actionsCreator";
 
 import { ITodo } from "./interfaces";
+import { DELETE_TODO_REQUEST, CREATE_TODO_REQUEST, SET_TODOS_REQUEST } from "./actionsTypes";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+const fork: any = Eff.fork;
+const put: any = Eff.put;
+const take: any = Eff.take;
+const all: any = Eff.all;
+
 export function* fetchTodos() {
   try {
-    yield put(setTodosRequest());
+    yield take(SET_TODOS_REQUEST);
     const todos: ITodo[] = JSON.parse(localStorage.getItem("todos") || "[]");
     yield delay(700);
     yield put(setTodosSuccess(todos));
@@ -25,9 +29,9 @@ export function* fetchTodos() {
   }
 }
 
-export function* createTodoAction(todo: ITodo) {
+export function* createTodoAction() {
   try {
-    yield put(createTodoRequest());
+    const { todo } = yield take(CREATE_TODO_REQUEST);
     yield delay(700);
     yield put(createTodoSuccess(todo));
   } catch (error) {
@@ -35,12 +39,16 @@ export function* createTodoAction(todo: ITodo) {
   }
 }
 
-export function* deleteTodoAction(id: number) {
+export function* deleteTodoAction() {
   try {
-    yield put(deleteTodoRequest());
+    const { deletedId } = yield take(DELETE_TODO_REQUEST);
     yield delay(700);
-    yield put(deleteTodoSuccess(id));
+    yield put(deleteTodoSuccess(deletedId));
   } catch (error) {
     yield put(deleteTodoFailure(error));
   }
+}
+
+export function* todosSaga() {
+  yield all([fork(fetchTodos), fork(createTodoAction), fork(deleteTodoAction)]);
 }

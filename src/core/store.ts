@@ -4,6 +4,7 @@ import { applyMiddleware, compose, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { createLogger } from "redux-logger";
 import rootReducer from "./rootReducer";
+import { rootSaga } from "./rootSaga";
 
 declare global {
   interface Window {
@@ -21,5 +22,7 @@ const middleware = isDevelopment
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer, composeEnhancer(middleware));
+
+sagaMiddleware.run(rootSaga);
 
 export default store;

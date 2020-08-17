@@ -24,7 +24,10 @@ export const setTodosFailure = (error: string) => ({
   error,
 });
 
-export const createTodoRequest = () => ({ type: CREATE_TODO_REQUEST });
+export const createTodoRequest = (todo: ITodo) => ({
+  type: CREATE_TODO_REQUEST,
+  todo,
+});
 export const createTodoSuccess = (todo: ITodo) => ({
   type: CREATE_TODO_SUCCESS,
   todo,
@@ -34,9 +37,11 @@ export const createTodoFailure = (error: string) => ({
   error,
 });
 
-export const updateTodoRequest = () => ({
+export const updateTodoRequest = (todo: ITodo) => ({
   type: UPDATE_TODO_REQUEST,
+  todo,
 });
+
 export const updateTodoSuccess = (todo: ITodo) => ({
   type: UPDATE_TODO_SUCCESS,
   todo,
@@ -47,7 +52,10 @@ export const updateTodoFailure = (error: string) => ({
   error,
 });
 
-export const deleteTodoRequest = () => ({ type: DELETE_TODO_REQUEST });
+export const deleteTodoRequest = (deletedId: number) => ({
+  type: DELETE_TODO_REQUEST,
+  deletedId,
+});
 export const deleteTodoSuccess = (deletedId: number) => ({
   type: DELETE_TODO_SUCCESS,
   deletedId,

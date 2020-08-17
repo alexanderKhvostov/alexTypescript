@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import TodoForm from '../../Features/Todos/TodoForm';
 import TodoList from '../../Features/Todos/TodoList';
 import { ITodo, ITodosState } from './interfaces';
 import rootStateInterface from '../../core/rootStateInterface';
-import { fetchTodos, createTodoAction, deleteTodoAction } from './actions';
+import { deleteTodoRequest, createTodoRequest, setTodosRequest } from './actionsCreator';
 
 
 const TodosPageContainer = () => {
     const { todos }: ITodosState = useSelector((state: rootStateInterface) => state.todos);
-
+    const dispatch = useDispatch()
+    
     useEffect(() => {
-        fetchTodos()
-    }, [])
+        dispatch(setTodosRequest())
+    }, [dispatch])
 
     const handleFormSubmit = (title: string) => {
         const newTodo: ITodo = {
@@ -20,7 +21,7 @@ const TodosPageContainer = () => {
             id: Date.now(),
             completed: false,
         }
-        createTodoAction(newTodo)
+        dispatch(createTodoRequest(newTodo))
     }
 
     const handleTodoComplete = (id: number) => {
@@ -28,7 +29,7 @@ const TodosPageContainer = () => {
     }
 
     const handleTodoDelete = (id: number) => {
-        deleteTodoAction(id)
+        dispatch(deleteTodoRequest(id))
     }
 
     return (
