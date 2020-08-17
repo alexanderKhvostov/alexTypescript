@@ -1,0 +1,16 @@
+.todo{
+    &.completed{
+        text-decoration: line-through;
+    }
+    label{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background-color: #f3f3f3;
+    }
+    i{
+        z-index: 2;
+        cursor: pointer;
+    }
+}
