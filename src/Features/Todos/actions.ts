@@ -1,5 +1,5 @@
 import * as Eff from "redux-saga/effects";
-
+import { DELETE_TODO_REQUEST, CREATE_TODO_REQUEST, SET_TODOS_REQUEST } from "./actionsTypes";
 import {
   createTodoSuccess,
   createTodoFailure,
@@ -9,7 +9,6 @@ import {
 } from "./actionsCreator";
 
 import { ITodo } from "./interfaces";
-import { DELETE_TODO_REQUEST, CREATE_TODO_REQUEST, SET_TODOS_REQUEST } from "./actionsTypes";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
