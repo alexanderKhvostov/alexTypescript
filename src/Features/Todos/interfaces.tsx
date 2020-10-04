@@ -9,7 +9,7 @@ export interface IAction {
     todo?: ITodo
     error?: string,
     todos?: ITodo[],
-    deletedId?: number,
+    id?: number,
 }
 export interface ITodosState {
     todos: ITodo[],

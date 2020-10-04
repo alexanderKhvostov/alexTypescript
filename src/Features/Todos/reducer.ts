@@ -5,6 +5,9 @@ import {
   CREATE_TODO_REQUEST,
   CREATE_TODO_SUCCESS,
   CREATE_TODO_FAILURE,
+  UPDATE_TODO_REQUEST,
+  UPDATE_TODO_SUCCESS,
+  UPDATE_TODO_FAILURE,
   DELETE_TODO_REQUEST,
   DELETE_TODO_SUCCESS,
   DELETE_TODO_FAILURE,
@@ -18,7 +21,7 @@ const initialState: ITodosState = {
 };
 
 const todos = (state = initialState, action: IAction) => {
-  const { type, todo, error, todos, deletedId } = action;
+  const { type, todo, error, todos, id } = action;
   switch (type) {
     case SET_TODOS_REQUEST:
       return {
@@ -53,6 +56,25 @@ const todos = (state = initialState, action: IAction) => {
         loading: false,
         error,
       };
+    case UPDATE_TODO_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_TODO_SUCCESS:
+      return {
+        ...state,
+        todos: state.todos.map((t) =>
+          t.id === id ? { ...t, completed: !t.completed } : t
+        ),
+        loading: false,
+      };
+    case UPDATE_TODO_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error,
+      };
     case DELETE_TODO_REQUEST:
       return {
         ...state,
@@ -61,7 +83,7 @@ const todos = (state = initialState, action: IAction) => {
     case DELETE_TODO_SUCCESS:
       return {
         ...state,
-        todos: state.todos.filter((t: ITodo) => t.id !== deletedId),
+        todos: state.todos.filter((t: ITodo) => t.id !== id),
         loading: false,
       };
     case DELETE_TODO_FAILURE:

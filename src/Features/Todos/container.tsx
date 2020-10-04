@@ -4,11 +4,11 @@ import TodoForm from '../../Features/Todos/TodoForm';
 import TodoList from '../../Features/Todos/TodoList';
 import { ITodo, ITodosState } from './interfaces';
 import rootStateInterface from '../../core/rootStateInterface';
-import { deleteTodoRequest, createTodoRequest, setTodosRequest } from './actionsCreator';
+import { deleteTodoRequest, createTodoRequest, setTodosRequest, updateTodoRequest } from './actionsCreator';
 
 
 const TodosPageContainer = () => {
-    const { todos }: ITodosState = useSelector((state: rootStateInterface) => state.todos);
+    const { todos, loading }: ITodosState = useSelector((state: rootStateInterface) => state.todos);
     const dispatch = useDispatch()
     
     useEffect(() => {
@@ -25,7 +25,7 @@ const TodosPageContainer = () => {
     }
 
     const handleTodoComplete = (id: number) => {
-        console.log(id)
+        dispatch(updateTodoRequest(id))
     }
 
     const handleTodoDelete = (id: number) => {
@@ -36,6 +36,7 @@ const TodosPageContainer = () => {
         <div className="todos-page">
             <TodoForm onFormSubmit={handleFormSubmit} />
             <TodoList onComplete={handleTodoComplete} onDelete={handleTodoDelete} todos={todos} />
+            {loading && "Loading...."}
         </div>
     )
 }
